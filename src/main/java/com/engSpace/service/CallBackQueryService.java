@@ -5,10 +5,13 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
 import com.engSpace.dto.response.WordTranslateResponse;
+import com.engSpace.entity.WordEntity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import static com.engSpace.dto.Constants.*;
+
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -30,12 +33,15 @@ public class CallBackQueryService {
 	private EditMessageText saveWordInfoCallBack(CallbackQuery callback) {
 		long messageId = callback.getMessage().getMessageId();
 		long chatId = callback.getMessage().getChatId();
-//		WordTranslateResponse res = userService.getlastestUserResponse(chatId);
 		EditMessageText editMessageText = new EditMessageText("ну и пожалуйста,  ну и не надо");
 		editMessageText.setChatId(String.valueOf(chatId));
 		editMessageText.setMessageId((int) messageId);
-		if (callback.getData().equals(SAVE_WORD))
-			editMessageText.setText("сейчас недоступно. Катя спит, а не работает");
+		if (callback.getData().equals(SAVE_WORD)) {
+			WordTranslateResponse res = userService.getlastestUserResponse(chatId);
+			WordEntity wordEntity = new WordEntity(res.getUserWord(), res, LocalDate.now().plusDays(1), 5);
+			userService.addWord(chatId, wordEntity);
+			editMessageText.setText("Катя добавила в базу");
+		}
 		return editMessageText;
 	}
 

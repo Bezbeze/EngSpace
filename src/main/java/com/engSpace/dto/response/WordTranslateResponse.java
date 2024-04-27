@@ -13,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class WordTranslateResponse {
+	String userWord;
     String trans;
     List<DictEntry> dict;
     

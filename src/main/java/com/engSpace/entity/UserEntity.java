@@ -1,6 +1,7 @@
 package com.engSpace.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -30,5 +31,7 @@ public class UserEntity {
 	String userName;
 	
 	LocalDate registeredAt;
+	
+	ArrayList<WordEntity> words;
 	
 }
